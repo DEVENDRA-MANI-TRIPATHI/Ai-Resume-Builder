@@ -13,6 +13,13 @@ const InputForm = () => {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [text, setText] = useState("");
+
+  const handleInput = (event) => {
+    setText(event.target.value);
+    event.target.style.height = "auto"; // Reset height first
+    event.target.style.height = event.target.scrollHeight + "px"; // Set to content height
+  };
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -115,6 +122,7 @@ const InputForm = () => {
               accept="application/pdf"
               id="pdfUpload"
               onChange={handleFileChange}
+              onInput={handleInput}
             />
             Click here
           </label>
