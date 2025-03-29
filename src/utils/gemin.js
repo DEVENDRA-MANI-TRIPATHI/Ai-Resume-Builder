@@ -44,9 +44,7 @@ export const analyzeResume = async (resumeText, jobDescription) => {
 
 export const generateCoverLetter = async (
     resumeText,
-    jobDescription,
-    companyName = "the company",
-    recipientName = "Hiring Manager"
+    jobDescription
 ) => {
     try {
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -55,10 +53,11 @@ export const generateCoverLetter = async (
             Write a professional and compelling cover letter for a software engineering position.
             Use the following details:
             - The cover letter should be tailored to the job description.
-            - Address it to ${recipientName} at ${companyName}.
             - Highlight key skills, relevant experience, and enthusiasm for the role.
             - Use a formal and engaging tone.
-            - Keep it concise (about 250-300 words).
+            - mention common skills from resume and jobdescription dont mention companies projects.
+            - mention common skills from ${resumeText} and jobdescription dont give vague response strictly use ${resumeText}.
+            - Keep it concise (about 150-200 words).
             - End with a polite closing statement and a call to action.
             
             ### Resume:
