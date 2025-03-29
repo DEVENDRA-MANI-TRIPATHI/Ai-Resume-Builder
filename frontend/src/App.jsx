@@ -1,17 +1,18 @@
-import AnalysisResult from "./components/AnalysisResult";
-import InputForm from "./components/InputForm";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Analyze from "./pages/Analyze";
 
 function App() {
-
-
   return (
-    <div className="min-h-screen bg-gray-900 text-center p-6">
-      <h1 className="text-gray-400 text-2xl">AI-Powered Resume Analyzer</h1>
-      <div className="flex flex-col justify-center items-center mt-3">
-        <InputForm />
-        <AnalysisResult/>
+    <Router>
+      <div className="min-h-screen bg-gray-900 text-center p-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/analyze" element={<Analyze />} />
+          
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 

@@ -1,72 +1,62 @@
 import React, { useState } from "react";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
 import pdfWorker from "pdfjs-dist/legacy/build/pdf.worker?url";
-import AnalysisResult from "./AnalysisResult"; 
+import AnalysisResult from "./AnalysisResult";
+import { FaFileUpload, FaSearch, FaCheckCircle } from "react-icons/fa";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const InputForm = () => {
-
   const [fileName, setFileName] = useState("");
   const [pdfText, setPdfText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [analysisResult, setAnalysisResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [text, setText] = useState("");
-
-  const handleInput = (event) => {
-    setText(event.target.value);
-    event.target.style.height = "auto"; // Reset height first
-    event.target.style.height = event.target.scrollHeight + "px"; // Set to content height
-  };
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
 
     if (file) {
       setFileName(file.name);
-      extractTextFromPDF(file,setPdfText);
+      extractTextFromPDF(file, setPdfText);
     } else {
       setFileName("");
       setPdfText("");
     }
   };
 
+
   const extractTextFromPDF = async (file, setPdfText) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-  
+
       reader.onload = async function () {
         try {
           const typedArray = new Uint8Array(reader.result);
           const pdf = await pdfjsLib.getDocument({ data: typedArray }).promise;
           let extractedText = "";
-  
+
           for (let i = 1; i <= pdf.numPages; i++) {
             const page = await pdf.getPage(i);
             const textContent = await page.getTextContent();
-  
-            
-            const pageText = textContent.items
-              .map((item) => item.str.trim())
-              .join(" ");
-  
+            const pageText = textContent.items.map((item) => item.str.trim()).join(" ");
             extractedText += pageText + "\n\n";
           }
-          console.log(extractedText);
+
           setPdfText(extractedText);
           resolve(extractedText);
         } catch (error) {
           reject(error);
         }
       };
-  
+
       reader.onerror = reject;
       reader.readAsArrayBuffer(file);
     });
   };
-  
 
   const handleAnalyze = async () => {
     if (!pdfText || !jobDescription) {
@@ -78,23 +68,15 @@ const InputForm = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:8000/api/v1/resume/analyze", {
+      const response = await fetch(`${API_BASE_URL}/api/v1/resume/analyze`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          resume: pdfText,
-          jobDescription: jobDescription,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resume: pdfText, jobDescription }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to analyze");
-      }
+      if (!response.ok) throw new Error("Failed to analyze");
 
       const data = await response.json();
-      console.log(data);
       setAnalysisResult(data);
     } catch (error) {
       setError(error.message);
@@ -104,45 +86,52 @@ const InputForm = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-white rounded-md w-full text-center md:w-2/3 p-4 shadow-lg">
-      <div className="p-2 w-full">
+    <div className="bg-gray-800 text-white rounded-xl w-full max-w-3xl mx-auto text-center p-6 shadow-xl transition-transform hover:scale-105">
+      {/* Header */}
+      <h2 className="text-2xl font-semibold text-gray-300">Upload Resume & Job Description</h2>
+      <p className="text-gray-400 text-sm mt-1">Get an AI-powered analysis to optimize your resume.</p>
+      <div className="mt-5">
         <textarea
-          className="w-full min-h-40 p-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full min-h-40 p-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-300 bg-gray-900"
           placeholder="Paste or type the job description here..."
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
         ></textarea>
-
-        <div className="mt-3">
-          <span className="text-gray-400">Upload your resume: </span>
-          <label className="text-blue-400 cursor-pointer hover:underline">
-            <input
-              type="file"
-              className="hidden"
-              accept="application/pdf"
-              id="pdfUpload"
-              onChange={handleFileChange}
-              onInput={handleInput}
-            />
-            Click here
-          </label>
-        </div>
+      </div>
+      <div className="flex flex-col items-center space-y-4 mt-4">
+        <label className="flex items-center space-x-2 text-blue-400 cursor-pointer hover:text-blue-500 transition">
+          <FaFileUpload size={20} />
+          <input
+            type="file"
+            className="hidden"
+            accept="application/pdf"
+            onChange={handleFileChange}
+          />
+          <span className="text-sm font-medium">Upload Resume (PDF)</span>
+        </label>
 
         {fileName && (
-          <p className="text-green-400 mt-2 text-sm">Selected file: {fileName}</p>
+          <p className="text-green-400 text-sm mt-1 font-semibold">✔ {fileName} selected</p>
         )}
       </div>
-
       <button
         onClick={handleAnalyze}
-        className="rounded-lg hover:bg-blue-400 bg-blue-500 p-2 mt-4 transition duration-200"
+        className="mt-6 w-full md:w-auto flex items-center justify-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md disabled:opacity-50"
         disabled={loading}
       >
-        {loading ? "Analyzing..." : "Analyze"}
+        {loading ? (
+          <>
+            <FaSearch className="animate-spin" />
+            Analyzing...
+          </>
+        ) : (
+          <>
+            <FaCheckCircle />
+            Analyze Resume
+          </>
+        )}
       </button>
-
-      {error && <p className="text-red-400 mt-2">{error}</p>}
-
+      {error && <p className="text-red-400 mt-3 font-medium">{error}</p>}
       {analysisResult && <AnalysisResult result={analysisResult} />}
     </div>
   );
