@@ -13,7 +13,9 @@ const InputForm = () => {
   const [pdfText, setPdfText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [analysisResult, setAnalysisResult] = useState(null);
+  const [coverLaterResult, setcoverLaterResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [coverloading, setCoverloading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleFileChange = async (event) => {
@@ -84,12 +86,39 @@ const InputForm = () => {
       setLoading(false);
     }
   };
+  const handleCoverLater = async () => {
+    if (!pdfText || !jobDescription) {
+      alert("Please upload a resume and enter the job description.");
+      return;
+    }
+
+    setCoverloading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/resume/cover-later`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resume: pdfText, jobDescription }),
+      });
+
+      if (!response.ok) throw new Error("Failed to analyze");
+
+      const data = await response.json();
+      console.log(data);
+      setcoverLaterResult(data);
+      setCoverloading(false)
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="bg-gray-800 text-white rounded-xl w-full max-w-3xl mx-auto text-center p-6 shadow-xl transition-transform hover:scale-105">
-      {/* Header */}
-      <h2 className="text-2xl font-semibold text-gray-300">Upload Resume & Job Description</h2>
-      <p className="text-gray-400 text-sm mt-1">Get an AI-powered analysis to optimize your resume.</p>
+    <>
+    <div className="bg-gray-800 text-white rounded-xl w-full md:w-3/4 mx-auto text-center p-6 shadow-xl transition-transform hover:scale-101">
+      
       <div className="mt-5">
         <textarea
           className="w-full min-h-40 p-3 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-300 bg-gray-900"
@@ -131,9 +160,34 @@ const InputForm = () => {
           </>
         )}
       </button>
+      <button
+        onClick={handleCoverLater}
+        className="mt-6 w-full md:w-auto flex items-center justify-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md disabled:opacity-50"
+        disabled={coverloading}
+      >
+        {coverloading ? (
+          <>
+            <FaSearch className="animate-spin" />
+            Analyzing...
+          </>
+        ) : (
+          <>
+            <FaCheckCircle />
+            Get Cover Later
+          </>
+        )}
+      </button>
       {error && <p className="text-red-400 mt-3 font-medium">{error}</p>}
       {analysisResult && <AnalysisResult result={analysisResult} />}
-    </div>
+      
+      </div>
+      {coverLaterResult && (
+        <div className="mt-6 p-4 bg-gray-700 rounded-lg md:w-3/4">
+          <h3 className="text-lg font-bold text-green-400">Cover Letter:</h3>
+          <p className="text-gray-300 mt-2 whitespace-pre-wrap text-left">{coverLaterResult.coverLetter}</p>
+        </div>
+      )}
+    </>
   );
 };
 
