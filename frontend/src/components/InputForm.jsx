@@ -145,7 +145,7 @@ const InputForm = () => {
       </div>
       <button
         onClick={handleAnalyze}
-        className="mt-6 w-full md:w-auto flex items-center justify-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md disabled:opacity-50"
+        className="mt-6 w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-md shadow-md transition-transform transform hover:scale-101  disabled:opacity-50"
         disabled={loading}
       >
         {loading ? (
@@ -162,7 +162,7 @@ const InputForm = () => {
       </button>
       <button
         onClick={handleCoverLater}
-        className="mt-6 w-full md:w-auto flex items-center justify-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md disabled:opacity-50"
+        className="mt-6 w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-md shadow-md transition-transform transform hover:scale-101  disabled:opacity-50"
         disabled={coverloading}
       >
         {coverloading ? (

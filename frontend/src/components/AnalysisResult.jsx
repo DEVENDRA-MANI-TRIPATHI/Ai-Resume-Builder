@@ -9,7 +9,6 @@ const AnalysisResult = ({ result }) => {
     <div className="bg-gray-800 rounded-lg mt-8 text-gray-400 w-full min-h-80 p-4">
       <h1 className="text-2xl text-white mb-4">Analysis Result</h1>
 
-      {/* Grid for Proper Left Alignment */}
       <div className="grid sm:grid-cols-[200px_auto] gap-y-4 gap-x-4 text-left">
         <span className="font-bold text-white">ATS Score:</span>
         <span className="text-gray-400">{ats_score ?? "N/A"}</span>

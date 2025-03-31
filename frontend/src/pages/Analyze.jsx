@@ -5,7 +5,7 @@ import AnalysisResult from "../components/AnalysisResult";
 const Analyze = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-center p-6">
-      <h1 className="text-gray-400 text-3xl font-semibold">AI-Powered Resume Analyzer</h1>
+      <h1 className="text-blue-400 text-3xl font-semibold">AI-Powered Resume Analyzer</h1>
       <p className="text-gray-500 text-lg mt-2 max-w-2xl mx-auto">
         Upload your resume and provide a job description to receive an in-depth AI-powered analysis.
         Get tailored insights to optimize your resume and improve your chances of landing your desired job.
