@@ -3,6 +3,9 @@ import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
 import pdfWorker from "pdfjs-dist/legacy/build/pdf.worker?url";
 import AnalysisResult from "./AnalysisResult";
 import { FaFileUpload, FaSearch, FaCheckCircle } from "react-icons/fa";
+import { Toast, ToastToggle } from "flowbite-react";
+import { HiExclamation } from "react-icons/hi";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
@@ -17,6 +20,8 @@ const InputForm = () => {
   const [loading, setLoading] = useState(false);
   const [coverloading, setCoverloading] = useState(false);
   const [error, setError] = useState(null);
+  const [showToast, setShowToast] = useState(false);
+
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -49,6 +54,7 @@ const InputForm = () => {
           }
 
           setPdfText(extractedText);
+          console.log(extractedText);
           resolve(extractedText);
         } catch (error) {
           reject(error);
@@ -62,9 +68,10 @@ const InputForm = () => {
 
   const handleAnalyze = async () => {
     if (!pdfText || !jobDescription) {
-      alert("Please upload a resume and enter the job description.");
+      setShowToast(true);
       return;
     }
+
 
     setLoading(true);
     setError(null);
@@ -88,7 +95,7 @@ const InputForm = () => {
   };
   const handleCoverLater = async () => {
     if (!pdfText || !jobDescription) {
-      alert("Please upload a resume and enter the job description.");
+      setShowToast(true);
       return;
     }
 
@@ -187,6 +194,21 @@ const InputForm = () => {
           <p className="text-gray-300 mt-2 whitespace-pre-wrap text-left">{coverLaterResult.coverLetter}</p>
         </div>
       )}
+
+      {showToast && (
+        <div className="fixed top-5 right-5 z-50 w-full max-w-xs">
+          <Toast className="bg-yellow-100 text-yellow-800 border border-yellow-300">
+            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-yellow-200 text-yellow-700">
+              <HiExclamation className="h-5 w-5" />
+            </div>
+            <div className="ml-3 text-sm font-medium">
+              Please upload a resume and enter the job description.
+            </div>
+            <ToastToggle onDismiss={() => setShowToast(false)} />
+          </Toast>
+        </div>
+      )}
+
     </>
   );
 };

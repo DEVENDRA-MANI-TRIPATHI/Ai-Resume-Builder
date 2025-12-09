@@ -13,6 +13,8 @@
     "@tailwindcss/vite": "^4.0.17",
     "autoprefixer": "^10.4.21",
     "axios": "^1.8.4",
+    "flowbite": "^4.0.1",
+    "flowbite-react": "^0.12.13",
     "pdfjs-dist": "^5.0.375",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
