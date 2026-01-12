@@ -1,13 +1,17 @@
 {
-  "name": "frontend",
+  "name": "resumeai-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "AI-powered resume analysis and optimization platform",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "build:prod": "npm run clean && vite build --mode production"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.17",
@@ -15,6 +19,8 @@
     "axios": "^1.8.4",
     "flowbite": "^4.0.1",
     "flowbite-react": "^0.12.13",
+    "framer-motion": "^12.26.1",
+    "lucide-react": "^0.562.0",
     "pdfjs-dist": "^5.0.375",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
