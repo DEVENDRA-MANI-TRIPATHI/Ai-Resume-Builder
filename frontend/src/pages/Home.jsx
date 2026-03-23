@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Shield,
   Clock,
-  TrendingUp
+  TrendingUp,
+  BarChart3
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -502,6 +503,126 @@ const Home = () => {
                   className="btn-secondary text-white px-8 py-4 rounded-lg font-inter font-semibold transition-smooth hover-lift mobile-full mobile-center"
                 >
                   View Pricing
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Hiring Managers Section */}
+      <section className="py-20 theme-bg-secondary transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+          >
+            <motion.h2 
+              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line theme-text"
+              variants={itemVariants}
+            >
+              For Hiring Managers
+            </motion.h2>
+            <motion.p 
+              className="font-inter text-responsive-xl max-w-3xl mx-auto theme-text-secondary"
+              variants={itemVariants}
+            >
+              Streamline your hiring process with <span className="font-jetbrains text-gradient-purple font-semibold">AI-powered</span> candidate analysis and comparison tools
+            </motion.p>
+          </motion.div>
+          
+          <motion.div 
+            className="grid md:grid-cols-3 gap-8 mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+          >
+            {[
+              {
+                icon: <Upload className="w-12 h-12 mb-4 animate-float transition-all duration-300" />,
+                title: "Bulk Analysis",
+                description: "Upload hundreds of resumes and get AI-powered analysis in minutes, not hours.",
+                link: "/bulk-analysis",
+                color: 'text-purple-400'
+              },
+              {
+                icon: <Users className="w-12 h-12 mb-4 animate-float transition-all duration-300" />,
+                title: "Smart Comparison",
+                description: "Compare candidates side-by-side with detailed AI insights and scoring.",
+                link: "/candidate-comparison",
+                color: 'text-pink-400'
+              },
+              {
+                icon: <BarChart3 className="w-12 h-12 mb-4 animate-float transition-all duration-300" />,
+                title: "Analytics Dashboard",
+                description: "Track hiring metrics, candidate pipeline, and team performance in real-time.",
+                link: "/hiring-dashboard",
+                color: 'text-cyan-400'
+              }
+            ].map((feature, index) => (
+              <motion.div 
+                key={index} 
+                className="p-6 rounded-xl shadow-lg transition-all duration-300 glass hover-lift hover-scale mobile-p-4 theme-border group"
+                variants={itemVariants}
+                whileHover={{ 
+                  y: -12,
+                  rotateX: 5,
+                  boxShadow: "0 30px 60px rgba(0, 0, 0, 0.2)"
+                }}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <motion.div 
+                    className={feature.color}
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    {feature.icon}
+                  </motion.div>
+                  <h3 className="font-inter font-semibold mb-3 text-responsive-xl theme-text">{feature.title}</h3>
+                  <p className="font-inter text-responsive-sm leading-relaxed theme-text-secondary mb-4">
+                    {feature.description}
+                  </p>
+                  <Link
+                    to={feature.link}
+                    className="text-primary-cyan hover:text-white font-semibold transition-colors duration-300 flex items-center gap-2 group-hover:gap-3"
+                  >
+                    Learn More
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          <motion.div 
+            className="text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
+          >
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-6 justify-center mobile-stack mobile-gap-4"
+              variants={itemVariants}
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/hiring-dashboard"
+                  className="btn-primary text-white px-8 py-4 rounded-lg font-inter font-semibold shadow-lg transition-smooth hover-lift mobile-full mobile-center"
+                >
+                  Try Hiring Dashboard
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/contact"
+                  className="btn-secondary px-8 py-4 rounded-lg font-inter font-semibold transition-smooth hover-lift mobile-full mobile-center"
+                >
+                  Request Enterprise Demo
                 </Link>
               </motion.div>
             </motion.div>

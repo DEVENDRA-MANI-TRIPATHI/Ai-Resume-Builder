@@ -18,6 +18,11 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 
+// Hiring Manager Pages
+const HiringDashboard = lazy(() => import("./pages/HiringDashboard"));
+const BulkAnalysis = lazy(() => import("./pages/BulkAnalysis"));
+const CandidateComparison = lazy(() => import("./pages/CandidateComparison"));
+
 function App() {
   return (
     <ThemeProvider>
@@ -94,6 +99,11 @@ function App() {
                     <Route path="/faq" element={<FAQ />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/terms" element={<Terms />} />
+                    
+                    {/* Hiring Manager Routes */}
+                    <Route path="/hiring-dashboard" element={<HiringDashboard />} />
+                    <Route path="/bulk-analysis" element={<BulkAnalysis />} />
+                    <Route path="/candidate-comparison" element={<CandidateComparison />} />
                     <Route path="*" element={
                       <motion.div 
                         className="flex items-center justify-center min-h-screen text-center px-6"

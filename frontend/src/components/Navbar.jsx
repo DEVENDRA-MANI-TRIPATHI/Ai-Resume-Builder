@@ -17,6 +17,12 @@ const Navbar = () => {
     { path: '/contact', label: 'Contact' }
   ];
 
+  const hiringLinks = [
+    { path: '/hiring-dashboard', label: 'Dashboard' },
+    { path: '/bulk-analysis', label: 'Bulk Analysis' },
+    { path: '/candidate-comparison', label: 'Compare' }
+  ];
+
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -62,6 +68,30 @@ const Navbar = () => {
                 </Link>
               </motion.div>
             ))}
+            
+            {/* Hiring Manager Dropdown */}
+            <div className="relative group">
+              <motion.button 
+                className="px-4 py-2 rounded-lg font-inter font-medium transition-all duration-300 theme-text-secondary hover:text-white hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-500/20 flex items-center gap-1"
+                whileHover={{ scale: 1.05 }}
+              >
+                For Hiring
+                <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </motion.button>
+              <div className="absolute top-full left-0 mt-2 w-48 glass-dark rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                {hiringLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className="block px-4 py-3 theme-text-secondary hover:text-white hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-500/20 transition-all duration-300 first:rounded-t-lg last:rounded-b-lg"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
             
             {/* Theme Toggle */}
             <motion.button
@@ -128,6 +158,21 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+              
+              {/* Mobile Hiring Links */}
+              <div className="border-t theme-border pt-3 mt-3">
+                <div className="px-4 py-2 theme-text-muted text-sm font-semibold">For Hiring Managers</div>
+                {hiringLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-4 py-3 rounded-lg font-inter font-medium transition-all duration-300 mobile-center theme-text-secondary hover:text-white hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-500/20"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
               <Link
                 to="/analyze"
                 onClick={() => setIsOpen(false)}
