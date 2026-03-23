@@ -4,7 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { I18nProvider } from "./contexts/I18nContext";
 import './styles/animations.css';
 
 // Lazy load all pages for better performance
@@ -25,7 +27,8 @@ const CandidateComparison = lazy(() => import("./pages/CandidateComparison"));
 
 function App() {
   return (
-    <ThemeProvider>
+    <I18nProvider>
+      <ThemeProvider>
       <ErrorBoundary>
         <Router>
           <div className="min-h-screen flex flex-col transition-all duration-300 scroll-smooth" style={{ scrollBehavior: 'smooth' }}>
@@ -65,6 +68,7 @@ function App() {
               />
             </div>
             
+            <ScrollToTop />
             <Navbar />
             
             <main className="flex-grow relative z-10">
@@ -149,7 +153,8 @@ function App() {
           </div>
         </Router>
       </ErrorBoundary>
-    </ThemeProvider>
+      </ThemeProvider>
+    </I18nProvider>
   );
 }
 

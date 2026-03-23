@@ -294,7 +294,7 @@ const Home = () => {
             variants={containerVariants}
           >
             <motion.h2 
-              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line theme-text"
+              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line-center theme-text"
               variants={itemVariants}
             >
               Powerful Features
@@ -364,7 +364,7 @@ const Home = () => {
             variants={containerVariants}
           >
             <motion.h2 
-              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line theme-text"
+              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line-center theme-text"
               variants={itemVariants}
             >
               How It Works
@@ -419,7 +419,7 @@ const Home = () => {
             variants={containerVariants}
           >
             <motion.h2 
-              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line theme-text"
+              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line-center theme-text"
               variants={itemVariants}
             >
               What Our Users Say
@@ -521,7 +521,7 @@ const Home = () => {
             variants={containerVariants}
           >
             <motion.h2 
-              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line theme-text"
+              className="font-orbitron font-bold mb-4 text-responsive-4xl accent-line-center theme-text"
               variants={itemVariants}
             >
               For Hiring Managers

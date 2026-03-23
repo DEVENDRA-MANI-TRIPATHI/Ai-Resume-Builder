@@ -1,219 +1,239 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  FaRobot, 
-  FaFileAlt, 
-  FaChartLine, 
-  FaShieldAlt, 
-  FaClock, 
-  FaUsers,
-  FaCheckCircle,
-  FaSearch,
-  FaDownload,
-  FaLanguage,
-  FaLightbulb,
-  FaBullseye
-} from 'react-icons/fa';
-import { useTheme } from '../contexts/ThemeContext';
+import { motion } from 'framer-motion';
+import {
+  Bot, FileText, BarChart3, Shield, Clock, Users,
+  Search, Download, Globe, Lightbulb, Target, CheckCircle2, ArrowRight
+} from 'lucide-react';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+};
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+};
 
 const Features = () => {
-  const { isDark } = useTheme();
-
   const mainFeatures = [
     {
-      icon: <FaRobot className={`${isDark ? 'text-blue-400' : 'text-blue-600'} text-5xl mb-4 animate-float`} />,
-      title: "AI-Powered Analysis",
-      description: "Advanced machine learning algorithms analyze your resume against job requirements, providing detailed insights and recommendations.",
-      benefits: [
-        "Deep content analysis",
-        "Skill gap identification",
-        "Keyword optimization",
-        "Industry-specific insights"
-      ]
+      icon: <Bot className="w-14 h-14 text-cyan-400" />,
+      title: 'AI-Powered Analysis',
+      description: 'Advanced machine learning algorithms analyze your resume against job requirements, providing detailed insights and recommendations.',
+      benefits: ['Deep content analysis', 'Skill gap identification', 'Keyword optimization', 'Industry-specific insights'],
+      gradient: 'from-cyan-400/10 to-blue-500/10',
+      border: 'border-cyan-500/20'
     },
     {
-      icon: <FaFileAlt className={`${isDark ? 'text-green-400' : 'text-green-600'} text-5xl mb-4 animate-float`} />,
-      title: "Smart Cover Letters",
-      description: "Generate personalized, professional cover letters that perfectly match your resume and target job description.",
-      benefits: [
-        "Personalized content",
-        "Professional formatting",
-        "Job-specific customization",
-        "Multiple templates"
-      ]
+      icon: <FileText className="w-14 h-14 text-emerald-400" />,
+      title: 'Smart Cover Letters',
+      description: 'Generate personalized, professional cover letters that perfectly match your resume and target job description.',
+      benefits: ['Personalized content', 'Professional formatting', 'Job-specific customization', 'Multiple templates'],
+      gradient: 'from-emerald-400/10 to-teal-500/10',
+      border: 'border-emerald-500/20'
     },
     {
-      icon: <FaChartLine className={`${isDark ? 'text-purple-400' : 'text-purple-600'} text-5xl mb-4 animate-float`} />,
-      title: "ATS Optimization",
-      description: "Ensure your resume passes Applicant Tracking Systems with our comprehensive ATS compatibility analysis.",
-      benefits: [
-        "ATS score rating",
-        "Format optimization",
-        "Keyword density analysis",
-        "Structure recommendations"
-      ]
+      icon: <BarChart3 className="w-14 h-14 text-purple-400" />,
+      title: 'ATS Optimization',
+      description: 'Ensure your resume passes Applicant Tracking Systems with our comprehensive ATS compatibility analysis.',
+      benefits: ['ATS score rating', 'Format optimization', 'Keyword density analysis', 'Structure recommendations'],
+      gradient: 'from-purple-400/10 to-indigo-500/10',
+      border: 'border-purple-500/20'
     }
   ];
 
   const additionalFeatures = [
-    { icon: <FaShieldAlt />, title: "Secure & Private", description: "Your data is encrypted and never stored permanently" },
-    { icon: <FaClock />, title: "Lightning Fast", description: "Get results in under 30 seconds" },
-    { icon: <FaUsers />, title: "Multi-Industry", description: "Optimized for all industries and job levels" },
-    { icon: <FaSearch />, title: "Deep Analysis", description: "Comprehensive resume and job matching" },
-    { icon: <FaDownload />, title: "Export Ready", description: "Download optimized versions instantly" },
-    { icon: <FaLanguage />, title: "Multi-Language", description: "Support for multiple languages" },
-    { icon: <FaLightbulb />, title: "Smart Suggestions", description: "AI-powered improvement recommendations" },
-    { icon: <FaBullseye />, title: "Job Targeting", description: "Tailor your resume for specific positions" }
+    { icon: <Shield className="w-6 h-6" />, title: 'Secure & Private', description: 'Your data is encrypted and never stored permanently', color: 'text-green-400' },
+    { icon: <Clock className="w-6 h-6" />, title: 'Lightning Fast', description: 'Get results in under 30 seconds', color: 'text-cyan-400' },
+    { icon: <Users className="w-6 h-6" />, title: 'Multi-Industry', description: 'Optimized for all industries and job levels', color: 'text-blue-400' },
+    { icon: <Search className="w-6 h-6" />, title: 'Deep Analysis', description: 'Comprehensive resume and job matching', color: 'text-purple-400' },
+    { icon: <Download className="w-6 h-6" />, title: 'Export Ready', description: 'Download optimized versions instantly', color: 'text-yellow-400' },
+    { icon: <Globe className="w-6 h-6" />, title: 'Multi-Language', description: 'Support for multiple languages', color: 'text-pink-400' },
+    { icon: <Lightbulb className="w-6 h-6" />, title: 'Smart Suggestions', description: 'AI-powered improvement recommendations', color: 'text-amber-400' },
+    { icon: <Target className="w-6 h-6" />, title: 'Job Targeting', description: 'Tailor your resume for specific positions', color: 'text-red-400' }
   ];
 
   const comparisonFeatures = [
-    { feature: "AI Resume Analysis", us: true, others: false },
-    { feature: "Cover Letter Generation", us: true, others: false },
-    { feature: "ATS Optimization", us: true, others: true },
-    { feature: "Real-time Processing", us: true, others: false },
-    { feature: "Industry-specific Insights", us: true, others: false },
-    { feature: "Secure Data Handling", us: true, others: true },
-    { feature: "Multiple Export Formats", us: true, others: false },
-    { feature: "Job Matching Score", us: true, others: false }
+    { feature: 'AI Resume Analysis', us: true, others: false },
+    { feature: 'Cover Letter Generation', us: true, others: false },
+    { feature: 'ATS Optimization', us: true, others: true },
+    { feature: 'Real-time Processing', us: true, others: false },
+    { feature: 'Industry-specific Insights', us: true, others: false },
+    { feature: 'Secure Data Handling', us: true, others: true },
+    { feature: 'Multiple Export Formats', us: true, others: false },
+    { feature: 'Job Matching Score', us: true, others: false }
   ];
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} transition-all duration-300`}>
-      {/* Hero Section */}
-      <section className={`py-20 ${isDark ? 'bg-gradient-to-br from-blue-900/20 to-purple-900/20' : 'bg-gradient-to-br from-blue-100/50 to-purple-100/50'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent neon-text animate-fade-in-up">
-            Powerful Features
-          </h1>
-          <p className={`text-xl ${isDark ? 'text-gray-300' : 'text-gray-600'} max-w-3xl mx-auto mb-8 animate-fade-in-up stagger-1`}>
-            Discover all the tools and capabilities that make ResumeAI the most comprehensive 
-            resume optimization platform available.
-          </p>
+    <motion.div
+      className="min-h-screen theme-bg"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Background orbs */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <motion.div className="absolute w-80 h-80 bg-cyan-500/8 rounded-full blur-3xl"
+          animate={{ x: [0, 60, 0], y: [0, -40, 0] }} transition={{ duration: 20, repeat: Infinity }}
+          style={{ top: '10%', left: '5%' }} />
+        <motion.div className="absolute w-96 h-96 bg-purple-500/8 rounded-full blur-3xl"
+          animate={{ x: [0, -50, 0], y: [0, 40, 0] }} transition={{ duration: 25, repeat: Infinity }}
+          style={{ bottom: '10%', right: '5%' }} />
+      </div>
+
+      {/* Hero */}
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 grid-pattern opacity-20" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div initial="hidden" animate="visible" variants={containerVariants}>
+            <motion.h1 className="font-orbitron font-bold text-responsive-5xl text-gradient mb-6" variants={itemVariants}>
+              Powerful Features
+            </motion.h1>
+            <motion.p className="font-inter text-responsive-xl theme-text-secondary max-w-3xl mx-auto" variants={itemVariants}>
+              Discover all the tools that make ResumeAI the most comprehensive resume optimization platform — powered by{' '}
+              <span className="font-jetbrains text-gradient-purple font-semibold">artificial intelligence</span>
+            </motion.p>
+          </motion.div>
         </div>
       </section>
 
       {/* Main Features */}
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-20">
-            {mainFeatures.map((feature, index) => (
-              <div key={index} className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 animate-fade-in-up stagger-${index + 1}`}>
-                <div className="flex-1">
-                  <div className="flex justify-center lg:justify-start">
-                    {feature.icon}
-                  </div>
-                  <h2 className={`text-3xl font-bold mb-4 text-center lg:text-left ${isDark ? 'text-white' : 'text-gray-900'} neon-text`}>{feature.title}</h2>
-                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'} text-lg mb-6 text-center lg:text-left leading-relaxed`}>
-                    {feature.description}
-                  </p>
-                  <ul className="space-y-3">
-                    {feature.benefits.map((benefit, idx) => (
-                      <li key={idx} className="flex items-center gap-3">
-                        <FaCheckCircle className="text-green-400 flex-shrink-0" />
-                        <span className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="flex-1">
-                  <div className={`${isDark ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} rounded-xl p-8 border glass-morphism hover-lift`}>
-                    <div className={`${isDark ? 'bg-gray-700' : 'bg-gray-200'} rounded-lg p-6 mb-4`}>
-                      <div className={`h-4 ${isDark ? 'bg-gray-600' : 'bg-gray-300'} rounded mb-3`}></div>
-                      <div className={`h-4 ${isDark ? 'bg-gray-600' : 'bg-gray-300'} rounded w-3/4 mb-3`}></div>
-                      <div className="h-4 bg-blue-400 rounded w-1/2"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+          {mainFeatures.map((feature, index) => (
+            <motion.div
+              key={index}
+              className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12`}
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={containerVariants}
+            >
+              <motion.div className="flex-1" variants={itemVariants}>
+                <motion.div className="mb-6" whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: 'spring', stiffness: 300 }}>
+                  {feature.icon}
+                </motion.div>
+                <h2 className="font-orbitron font-bold text-responsive-3xl theme-text mb-4">{feature.title}</h2>
+                <p className="font-inter text-responsive-base theme-text-secondary mb-6 leading-relaxed">{feature.description}</p>
+                <ul className="space-y-3">
+                  {feature.benefits.map((benefit, idx) => (
+                    <li key={idx} className="flex items-center gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
+                      <span className="font-inter text-responsive-sm theme-text-secondary">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+              <motion.div className="flex-1 w-full" variants={itemVariants}>
+                <div className={`glass rounded-2xl p-8 border ${feature.border} bg-gradient-to-br ${feature.gradient} hover-lift`}>
+                  <div className="flex flex-col items-center justify-center py-8 gap-4">
+                    <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}>
+                      {feature.icon}
+                    </motion.div>
+                    <p className="font-inter text-sm theme-text-muted">Feature Preview</p>
+                    <div className="w-full space-y-2 mt-2">
+                      {[80, 60, 90].map((w, i) => (
+                        <motion.div key={i} className="h-2 bg-white/10 rounded-full overflow-hidden">
+                          <motion.div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
+                            initial={{ width: 0 }} whileInView={{ width: `${w}%` }}
+                            transition={{ duration: 1, delay: i * 0.2 }} viewport={{ once: true }}
+                          />
+                        </motion.div>
+                      ))}
                     </div>
-                    <div className={`text-center ${isDark ? 'text-gray-400' : 'text-gray-500'} text-sm`}>
-                      Feature Preview
-                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              </motion.div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       {/* Additional Features Grid */}
-      <section className={`py-20 ${isDark ? 'bg-gray-800/30' : 'bg-gray-50'} transition-all duration-300`}>
+      <section className="py-20 theme-bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'} neon-text`}>Additional Features</h2>
-            <p className={`text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Everything you need for resume success</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={containerVariants}>
+            <motion.h2 className="font-orbitron font-bold text-responsive-4xl accent-line-center theme-text mb-4" variants={itemVariants}>
+              Additional Features
+            </motion.h2>
+            <motion.p className="font-inter text-responsive-xl theme-text-secondary" variants={itemVariants}>
+              Everything you need for resume success
+            </motion.p>
+          </motion.div>
+          <motion.div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={containerVariants}
+          >
             {additionalFeatures.map((feature, index) => (
-              <div key={index} className={`${isDark ? 'bg-gray-800 border-gray-700 hover:border-gray-600' : 'bg-white border-gray-200 hover:border-gray-300'} p-6 rounded-xl border transition-all duration-300 hover-lift animate-fade-in-up stagger-${(index % 4) + 1}`}>
-                <div className={`${isDark ? 'text-blue-400' : 'text-blue-600'} text-2xl mb-3 animate-float`}>
-                  {feature.icon}
-                </div>
-                <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>{feature.title}</h3>
-                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm`}>{feature.description}</p>
-              </div>
+              <motion.div key={index} className="glass p-6 rounded-xl hover-lift theme-border border" variants={itemVariants}
+                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
+              >
+                <div className={`${feature.color} mb-3 animate-float`}>{feature.icon}</div>
+                <h3 className="font-inter font-semibold text-responsive-base theme-text mb-2">{feature.title}</h3>
+                <p className="font-inter text-responsive-sm theme-text-secondary">{feature.description}</p>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Comparison Table */}
       <section className="py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'} neon-text`}>Why Choose ResumeAI?</h2>
-            <p className={`text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>See how we compare to other solutions</p>
-          </div>
-          <div className={`${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl overflow-hidden border glass-morphism animate-fade-in-up stagger-1`}>
-            <div className={`grid grid-cols-3 ${isDark ? 'bg-gray-700' : 'bg-gray-100'} p-4`}>
-              <div className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Feature</div>
-              <div className={`font-semibold text-center ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>ResumeAI</div>
-              <div className={`font-semibold text-center ${isDark ? 'text-white' : 'text-gray-900'}`}>Others</div>
+          <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={containerVariants}>
+            <motion.h2 className="font-orbitron font-bold text-responsive-4xl accent-line-center theme-text mb-4" variants={itemVariants}>
+              Why Choose ResumeAI?
+            </motion.h2>
+            <motion.p className="font-inter text-responsive-xl theme-text-secondary" variants={itemVariants}>
+              See how we compare to other solutions
+            </motion.p>
+          </motion.div>
+          <motion.div className="glass rounded-2xl overflow-hidden theme-border border"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          >
+            <div className="grid grid-cols-3 theme-bg-secondary p-4 border-b theme-border">
+              <div className="font-inter font-semibold theme-text">Feature</div>
+              <div className="font-inter font-semibold text-center text-cyan-400">ResumeAI</div>
+              <div className="font-inter font-semibold text-center theme-text-muted">Others</div>
             </div>
             {comparisonFeatures.map((item, index) => (
-              <div key={index} className={`grid grid-cols-3 p-4 ${index % 2 === 0 ? (isDark ? 'bg-gray-800' : 'bg-white') : (isDark ? 'bg-gray-750' : 'bg-gray-50')}`}>
-                <div className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{item.feature}</div>
+              <div key={index} className={`grid grid-cols-3 p-4 border-b theme-border last:border-0 ${index % 2 === 0 ? '' : 'theme-bg-secondary'}`}>
+                <div className="font-inter text-sm theme-text-secondary">{item.feature}</div>
                 <div className="text-center">
-                  {item.us ? (
-                    <FaCheckCircle className="text-green-400 mx-auto" />
-                  ) : (
-                    <span className="text-red-400">✗</span>
-                  )}
+                  {item.us ? <CheckCircle2 className="w-5 h-5 text-green-400 mx-auto" /> : <span className="text-red-400">✗</span>}
                 </div>
                 <div className="text-center">
-                  {item.others ? (
-                    <FaCheckCircle className="text-green-400 mx-auto" />
-                  ) : (
-                    <span className="text-red-400">✗</span>
-                  )}
+                  {item.others ? <CheckCircle2 className="w-5 h-5 text-green-400 mx-auto" /> : <span className="text-red-400 text-sm">✗</span>}
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-900/50 to-purple-900/50 holographic">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 animate-fade-in-up">
-          <h2 className="text-4xl font-bold mb-4 text-white neon-text animate-hologram">Ready to Experience These Features?</h2>
-          <p className="text-xl text-gray-300 mb-8">
-            Try ResumeAI today and see the difference AI-powered optimization can make
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/analyze"
-              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 animate-glow hover-lift"
-            >
-              Try All Features Free
-            </Link>
-            <Link
-              to="/pricing"
-              className="border border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover-lift"
-            >
-              View Pricing Plans
-            </Link>
-          </div>
+      {/* CTA */}
+      <section className="py-20 bg-gradient-to-r from-primary-blue/20 to-primary-purple/20 relative overflow-hidden">
+        <div className="absolute inset-0 grid-pattern opacity-10" />
+        <div className="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={containerVariants}>
+            <motion.h2 className="font-orbitron font-bold text-responsive-4xl text-white mb-6" variants={itemVariants}>
+              Ready to Experience These Features?
+            </motion.h2>
+            <motion.p className="font-inter text-responsive-xl text-gray-300 mb-8" variants={itemVariants}>
+              Try ResumeAI today and see the difference AI-powered optimization can make
+            </motion.p>
+            <motion.div className="flex flex-col sm:flex-row gap-6 justify-center" variants={itemVariants}>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link to="/analyze" className="btn-primary text-white px-8 py-4 rounded-lg font-inter font-semibold flex items-center gap-2 hover-lift">
+                  Try All Features Free <ArrowRight className="w-5 h-5" />
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link to="/pricing" className="btn-secondary px-8 py-4 rounded-lg font-inter font-semibold hover-lift">
+                  View Pricing Plans
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
-    </div>
+    </motion.div>
   );
 };
 

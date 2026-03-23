@@ -44,7 +44,7 @@ const Footer = () => {
               <div className="animate-float">
                 <Bot className="text-primary-cyan w-8 h-8 animate-subtle-glow" />
               </div>
-              <span className="font-orbitron font-bold text-xl theme-text text-gradient">ResumeAI</span>
+              <span className={`font-orbitron font-bold text-xl ${isDark ? 'text-white' : 'text-gray-900'}`}>ResumeAI</span>
             </div>
             <p className="theme-text-muted mb-4 max-w-md leading-relaxed">
               AI-powered resume analysis and optimization tool. Get personalized insights 

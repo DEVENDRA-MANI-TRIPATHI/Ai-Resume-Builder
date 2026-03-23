@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   Users, 
   FileText, 
@@ -13,7 +14,8 @@ import {
   CheckCircle,
   XCircle,
   BarChart3,
-  Upload
+  Upload,
+  Info
 } from 'lucide-react';
 
 const HiringDashboard = () => {
@@ -81,6 +83,17 @@ const HiringDashboard = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="max-w-7xl mx-auto">
+        {/* Demo Banner */}
+        <div className="flex items-center gap-3 px-5 py-3 mb-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+          <Info className="w-5 h-5 text-yellow-400 flex-shrink-0" />
+          <p className="font-inter text-sm text-yellow-300 flex-1">
+            This is a <span className="font-semibold">demo preview</span>. Real AI processing coming soon.
+          </p>
+          <Link to="/analyze" className="text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors whitespace-nowrap">
+            Try Resume Analyzer →
+          </Link>
+        </div>
+
         {/* Header */}
         <motion.div 
           className="mb-8"

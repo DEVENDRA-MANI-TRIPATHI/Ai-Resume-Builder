@@ -244,6 +244,21 @@ html {
   background: linear-gradient(90deg, var(--primary-cyan), transparent);
 }
 
+.accent-line-center {
+  position: relative;
+}
+
+.accent-line-center::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent);
+}
+
 /* Mobile Responsive */
 @media (max-width: 640px) {
   .mobile-stack { flex-direction: column; }
