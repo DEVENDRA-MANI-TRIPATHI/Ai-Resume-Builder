@@ -8,6 +8,10 @@ import {
   Sparkles, ClipboardList, ChevronRight, Copy, RotateCcw
 } from 'lucide-react';
 import AnalysisResult from '../components/AnalysisResult';
+import ScoreHistory from '../components/ScoreHistory';
+import ResumePreview from '../components/ResumePreview';
+import jobTemplates from '../data/jobTemplates';
+import useScoreHistory from '../hooks/useScoreHistory';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
@@ -131,7 +135,10 @@ const Analyze = () => {
   const [toast, setToast] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [serverOnline, setServerOnline] = useState(null);
-  const [activeResult, setActiveResult] = useState('analysis'); // 'analysis' | 'cover'
+  const [activeResult, setActiveResult] = useState('analysis');
+  const [tone, setTone] = useState('professional');
+  const [showPreview, setShowPreview] = useState(false);
+  const { history, addEntry, clearHistory } = useScoreHistory();
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/api/v1/resume/health`, { signal: AbortSignal.timeout(4000) })
@@ -193,6 +200,7 @@ const Analyze = () => {
       if (!res.ok || data.error) throw new Error(data.error || `Server error ${res.status}`);
       if (!data.score) throw new Error('Invalid response from server.');
       setAnalysisResult(data);
+      addEntry(data, jobDescription);
       showToast('Analysis complete!', 'success');
     } catch (err) {
       const msg = err.message.includes('fetch') ? 'Cannot reach server. Is the backend running?' : err.message;
@@ -207,7 +215,7 @@ const Analyze = () => {
       const res = await fetch(`${API_BASE_URL}/api/v1/resume/cover-letter`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ resumeText: pdfText.trim(), jobDescription: jobDescription.trim() }),
+        body: JSON.stringify({ resumeText: pdfText.trim(), jobDescription: jobDescription.trim(), tone }),
       });
       const data = await res.json();
       if (!res.ok || data.error) throw new Error(data.error || `Server error ${res.status}`);
@@ -296,12 +304,27 @@ const Analyze = () => {
               transition={{ duration: 0.4 }}
               className="space-y-5"
             >
+              <ScoreHistory history={history} onClear={clearHistory} />
+
               {/* Job Description */}
               <div className="glass rounded-2xl p-6">
                 <label className="flex items-center gap-2 font-inter font-semibold theme-text mb-3">
                   <ClipboardList className="w-5 h-5 text-cyan-400" />
                   Job Description
                 </label>
+                {/* Template picker */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  <span className="font-inter text-xs theme-text-muted self-center">Quick fill:</span>
+                  {jobTemplates.map((t) => (
+                    <button
+                      key={t.role}
+                      onClick={() => setJobDescription(t.description)}
+                      className="px-3 py-1 rounded-full font-inter text-xs border theme-border theme-text-secondary hover:border-cyan-400/60 hover:text-cyan-400 transition-all duration-200"
+                    >
+                      {t.role}
+                    </button>
+                  ))}
+                </div>
                 <textarea
                   className="w-full h-44 p-4 theme-bg-secondary theme-border border rounded-xl theme-text font-inter text-sm resize-none focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all"
                   placeholder="Paste the job description here..."
@@ -395,17 +418,35 @@ const Analyze = () => {
                   )}
                 </motion.button>
 
-                <motion.button
-                  onClick={handleCoverLetter}
-                  disabled={loading || coverLoading}
-                  className="px-6 py-4 rounded-xl font-inter font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white transition-all duration-300"
-                  whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
-                >
-                  {coverLoading
-                    ? <><Loader2 className="w-5 h-5 animate-spin" /> Generating...</>
-                    : <><FileText className="w-5 h-5" /> Generate Cover Letter</>
-                  }
-                </motion.button>
+                <div className="flex flex-col gap-2">
+                  {/* Tone selector */}
+                  <div className="flex gap-2 flex-wrap">
+                    {['professional', 'friendly', 'confident', 'creative'].map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setTone(t)}
+                        className={`px-3 py-1 rounded-full font-inter text-xs capitalize transition-all duration-200 border ${
+                          tone === t
+                            ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-400 font-semibold'
+                            : 'theme-border theme-text-muted hover:border-emerald-500/40 hover:text-emerald-400'
+                        }`}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                  <motion.button
+                    onClick={handleCoverLetter}
+                    disabled={loading || coverLoading}
+                    className="px-6 py-4 rounded-xl font-inter font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white transition-all duration-300"
+                    whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
+                  >
+                    {coverLoading
+                      ? <><Loader2 className="w-5 h-5 animate-spin" /> Generating...</>
+                      : <><FileText className="w-5 h-5" /> Generate Cover Letter ({tone})</>
+                    }
+                  </motion.button>
+                </div>
               </div>
             </motion.div>
           )}
@@ -477,7 +518,23 @@ const Analyze = () => {
                 {activeResult === 'analysis' && analysisResult && !loading && (
                   <motion.div key="analysis"
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+                    className="space-y-4"
                   >
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => setShowPreview((p) => !p)}
+                        className="font-inter text-xs px-3 py-1.5 rounded-lg glass border theme-border theme-text-muted hover:text-cyan-400 hover:border-cyan-400/40 transition-all"
+                      >
+                        {showPreview ? 'Hide Preview' : '🔍 Preview Resume'}
+                      </button>
+                    </div>
+                    {showPreview && (
+                      <ResumePreview
+                        resumeText={pdfText}
+                        missingKeywords={analysisResult?.score?.missing_keywords || []}
+                        strengths={analysisResult?.score?.strengths || []}
+                      />
+                    )}
                     <AnalysisResult result={analysisResult} />
                   </motion.div>
                 )}

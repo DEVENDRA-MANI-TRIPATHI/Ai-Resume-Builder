@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { CheckCircle2, XCircle, Tag, Lightbulb, Shield, Sparkles } from 'lucide-react';
+import ImprovementChecklist from './ImprovementChecklist';
 
 /* ─── Animated Score Ring ────────────────────────────────── */
 const ScoreRing = ({ score }) => {
@@ -261,18 +262,10 @@ const AnalysisResult = ({ result }) => {
             {activeTab === 'improve' && (
               <motion.div key="improve"
                 initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }}
-                className="space-y-3"
               >
-                {improvements.length ? improvements.map((item, i) => (
-                  <motion.div key={i} className="flex items-start gap-4 p-4 bg-cyan-500/5 border border-cyan-500/15 rounded-xl"
-                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-                  >
-                    <span className="w-7 h-7 bg-cyan-400/10 text-cyan-400 rounded-full flex items-center justify-center text-xs font-bold font-orbitron flex-shrink-0 mt-0.5">
-                      {i + 1}
-                    </span>
-                    <p className="font-inter text-sm theme-text-secondary">{item}</p>
-                  </motion.div>
-                )) : (
+                {improvements.length ? (
+                  <ImprovementChecklist improvements={improvements} />
+                ) : (
                   <motion.div className="flex flex-col items-center gap-3 py-10 text-cyan-400" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <Sparkles className="w-10 h-10 opacity-60" />
                     <p className="font-inter text-sm font-medium">You're good to go!</p>

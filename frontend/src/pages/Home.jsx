@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -17,6 +17,54 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
+/* ─── Demo Score Ring ───────────────────────────────────── */
+const DemoScoreRing = () => {
+  const [display, setDisplay] = useState(0);
+  const target = 85;
+  const r = 52, circ = 2 * Math.PI * r;
+  const offset = circ - (display / 100) * circ;
+
+  useEffect(() => {
+    const duration = 2000;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(Math.round(eased * target));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    const id = setTimeout(() => requestAnimationFrame(tick), 600);
+    return () => clearTimeout(id);
+  }, []);
+
+  return (
+    <motion.div
+      className="flex flex-col items-center gap-4"
+      initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.6 }}
+    >
+      <div className="relative w-40 h-40 flex items-center justify-center rounded-full bg-gradient-to-br from-green-500/10 to-emerald-500/5">
+        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="10" />
+          <motion.circle
+            cx="60" cy="60" r={r} fill="none" stroke="#10b981" strokeWidth="10" strokeLinecap="round"
+            strokeDasharray={circ}
+            initial={{ strokeDashoffset: circ }}
+            animate={{ strokeDashoffset: offset }}
+            transition={{ duration: 2, ease: 'easeOut', delay: 0.6 }}
+          />
+        </svg>
+        <div className="text-center z-10">
+          <div className="font-orbitron font-bold text-4xl text-green-400">{display}</div>
+          <div className="font-inter text-xs theme-text-muted mt-1">/ 100</div>
+        </div>
+      </div>
+      <div className="text-center">
+        <p className="font-inter text-sm text-green-400 font-semibold">Excellent Match ✓</p>
+        <p className="font-inter text-xs theme-text-muted mt-1">This could be your score</p>
+      </div>
+    </motion.div>
+  );
+};
 const Home = () => {
   const { isDark } = useTheme();
 
@@ -233,11 +281,12 @@ const Home = () => {
                 </Link>
               </motion.div>
             </motion.div>
+            <motion.div className="mt-12" variants={itemVariants}>
+              <DemoScoreRing />
+            </motion.div>
           </motion.div>
         </div>
       </section>
-
-      {/* Stats Section */}
       <section className="py-16 theme-bg-secondary transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
